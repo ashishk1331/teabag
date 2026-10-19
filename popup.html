@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Teabag Settings</title>
+  <style>
+    :root {
+      color-scheme: dark;
+
+      /* LeetCode dark theme, sampled from the submission page */
+      --tb-base: #2a2a2a;        /* page surface */
+      --tb-inset: #313131;       /* inset surface */
+      --tb-border: #484848;      /* tertiary border */
+      --tb-border-soft: #3b3b3b; /* quiet divider */
+
+      --tb-ink: #eff1f6;
+      --tb-ink-2: #adadad;
+      --tb-ink-3: #9a9a9a;
+
+      --tb-accent: #e8f84a;
+      --tb-accent-hover: #f2ff6e;
+      --tb-success: #2cbb5d;
+      --tb-danger: #ff6b66;
+
+      --tb-radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      width: 330px;
+      padding: 18px 16px;
+      background: var(--tb-base);
+      color: var(--tb-ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--tb-radius);
+    }
+
+    .header-text {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-text h1 {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--tb-accent);
+      letter-spacing: 0.01em;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 12px;
+      background: var(--tb-base);
+      border: 1px solid var(--tb-border);
+      border-radius: var(--tb-radius);
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--tb-ink-2);
+    }
+
+    input {
+      width: 100%;
+      height: 38px;
+      padding: 0 12px;
+      background: var(--tb-inset);
+      border: 1px solid var(--tb-border);
+      border-radius: var(--tb-radius);
+      color: var(--tb-ink);
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    input::placeholder {
+      color: var(--tb-ink-3);
+    }
+
+    input:focus {
+      border-color: var(--tb-accent);
+    }
+
+    .btn-primary {
+      height: 38px;
+      padding: 0 16px;
+      background: var(--tb-accent);
+      color: #141414;
+      border: none;
+      border-radius: var(--tb-radius);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.15s ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--tb-accent-hover);
+    }
+
+    .btn-primary:active {
+      background: #d9e83f;
+    }
+
+    .btn-primary:focus-visible {
+      outline: 2px solid var(--tb-accent);
+      outline-offset: 2px;
+    }
+
+    .status {
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.35;
+    }
+
+    .status:empty {
+      display: none;
+    }
+
+    .status.success {
+      color: var(--tb-success);
+    }
+
+    .status.error {
+      color: var(--tb-danger);
+    }
+
+    .tip {
+      padding-top: 12px;
+      border-top: 1px solid var(--tb-border-soft);
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--tb-ink-3);
+    }
+
+    .tip strong {
+      color: var(--tb-ink-2);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <img src="icons/icon48.png" class="logo" alt="Teabag">
+    <div class="header-text">
+      <h1>Teabag</h1>
+      <span class="badge">System 1</span>
+    </div>
+  </div>
+
+  <!-- Settings panel -->
+  <section class="card">
+    <div class="field">
+      <label for="apiKey">OpenRouter API Key</label>
+      <input type="password" id="apiKey" placeholder="sk-or-v1-..." autocomplete="off" spellcheck="false">
+    </div>
+    <button class="btn-primary" id="saveBtn">Save Settings</button>
+  </section>
+
+  <div class="status" id="status"></div>
+
+  <!-- Minimal Tip -->
+  <div class="tip">
+    Click <strong>Teabag it</strong> on any LeetCode submission to evaluate Approach, Efficiency, and Code Style with <strong>inception/mercury-decide:free</strong>.
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,389 @@
+/* Teabag - Clean Minimal LeetCode Dark Theme (Single-surface, comfortably sized) */
+
+:root {
+  --teabag-bg: #141418;
+  --teabag-border: rgba(255, 255, 255, 0.08);
+  --teabag-border-hover: rgba(255, 255, 255, 0.16);
+
+  --teabag-text-primary: #eff1f6;
+  --teabag-text-secondary: rgba(255, 255, 255, 0.7);
+  --teabag-text-muted: #71717a;
+
+  --teabag-accent: #e8f84a;
+  --teabag-accent-hover: #f2ff6e;
+  --teabag-accent-dark: #000000;
+
+  --teabag-success: #2cbb5d;
+  --teabag-warning: #ffc01e;
+  --teabag-danger: #ef4743;
+}
+
+/* "Teabag it" Button on LeetCode Submission Page - Exactly matches LeetCode's h-8 (32px) buttons */
+.teabag-ai-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 8px; /* LeetCode rounded-lg */
+  height: 32px; /* Matches LeetCode h-8 (32px) */
+  min-height: 32px;
+  max-height: 32px;
+  gap: 6px;
+  padding: 0 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-tertiary, rgba(255, 255, 255, 0.08));
+  color: var(--text-primary, #eff1f6);
+  cursor: pointer;
+  white-space: nowrap;
+  outline: none;
+  user-select: none;
+  box-sizing: border-box;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.teabag-ai-btn:hover {
+  background: rgba(255, 255, 255, 0.13);
+  border-color: var(--border-secondary, rgba(255, 255, 255, 0.16));
+}
+
+.teabag-ai-btn:active {
+  background: rgba(255, 255, 255, 0.17);
+}
+
+.teabag-ai-btn.teabag-loading {
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+.teabag-btn-label {
+  color: var(--text-primary, #eff1f6);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.teabag-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--teabag-accent, #e8f84a);
+  flex-shrink: 0;
+}
+
+/* When text is hidden for small sizes, button becomes an exact 32px x 32px square matching other LeetCode buttons */
+.teabag-ai-btn.compact {
+  width: 32px;
+  min-width: 32px;
+  max-width: 32px;
+  height: 32px;
+  padding: 0;
+}
+
+.teabag-ai-btn.compact .teabag-btn-label {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .teabag-ai-btn {
+    width: 32px;
+    min-width: 32px;
+    max-width: 32px;
+    height: 32px;
+    padding: 0;
+  }
+  .teabag-ai-btn .teabag-btn-label {
+    display: none;
+  }
+}
+
+.teabag-spinner {
+  animation: teabag-spin 1s linear infinite;
+}
+
+@keyframes teabag-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Result Card - Matches LeetCode submission card (rounded-lg border p-3 border-border-tertiary) */
+.teabag-card {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--layer-01, rgba(255, 255, 255, 0.02));
+  border: 1px solid var(--border-tertiary, rgba(255, 255, 255, 0.08));
+  box-shadow: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--text-primary, #eff1f6);
+  margin-bottom: 8px;
+}
+
+/* Card Topbar */
+.teabag-card-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.teabag-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-tertiary, rgba(255, 255, 255, 0.08));
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.teabag-action-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-primary, #eff1f6);
+}
+
+.teabag-action-btn.teabag-close-btn {
+  padding: 4px 6px;
+}
+
+/* Metric Tabs Grid (Structured like LeetCode's Runtime and Memory boxes) */
+.teabag-metric-grid {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .teabag-metric-grid {
+    flex-direction: column;
+  }
+}
+
+.teabag-metric-tab {
+  flex: 1;
+  min-width: 0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.teabag-metric-tab.active {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
+  opacity: 1;
+}
+
+.teabag-metric-tab:not(.active) {
+  background: rgba(255, 255, 255, 0.03);
+  opacity: 0.45;
+}
+
+.teabag-metric-tab:not(.active):hover {
+  opacity: 0.85;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.teabag-tab-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.teabag-tab-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary, #eff1f6);
+}
+
+.teabag-tab-metric {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.teabag-metric-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary, #eff1f6);
+}
+
+.teabag-metric-unit {
+  font-size: 12px;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.5));
+}
+
+.teabag-metric-divider {
+  width: 1px;
+  height: 12px;
+  margin: 0 4px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.teabag-metric-label {
+  font-size: 11px;
+  text-transform: capitalize;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.5));
+}
+
+.teabag-metric-badge {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.teabag-metric-badge.optimal {
+  color: #2cbb5d;
+}
+
+.teabag-metric-badge.suboptimal {
+  color: #ffc01e;
+}
+
+/* Detail Box below tabs */
+.teabag-detail-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-quaternary, rgba(255, 255, 255, 0.06));
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.teabag-detail-row {
+  font-size: 13px;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  line-height: 1.45;
+}
+
+.teabag-detail-row strong {
+  color: var(--text-primary, #eff1f6);
+  font-weight: 600;
+}
+
+.teabag-sep {
+  color: #52525b;
+  margin: 0 2px;
+}
+
+.teabag-detail-body {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.65));
+}
+
+.teabag-detail-list {
+  margin: 4px 0 0 0;
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+}
+
+.teabag-detail-list li {
+  margin-bottom: 3px;
+}
+
+.teabag-detail-list li.improvement {
+  color: var(--teabag-accent, #e8f84a);
+}
+
+/* Loading & Error States */
+.teabag-loading-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+}
+
+.teabag-progress-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.teabag-progress-pulse {
+  width: 40%;
+  height: 100%;
+  background: var(--teabag-accent, #e8f84a);
+  border-radius: 2px;
+  animation: teabag-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes teabag-pulse {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+.teabag-error-box {
+  background: rgba(239, 71, 67, 0.08);
+  border: 1px solid rgba(239, 71, 67, 0.2);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.teabag-retry-btn {
+  height: 32px;
+  padding: 0 14px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #eff1f6;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.15s ease;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.teabag-retry-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* Card Action Footer */
+.teabag-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 4px;
+}
+
