@@ -173,6 +173,24 @@
       color: var(--tb-ink-2);
       font-weight: 600;
     }
+
+    .footer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--tb-ink-3);
+    }
+
+    .footer a {
+      color: var(--tb-ink-2);
+      text-decoration: underline;
+      text-decoration-color: rgba(255, 255, 255, 0.28);
+      text-underline-offset: 2px;
+    }
+
+    .footer a:hover {
+      color: var(--tb-accent);
+      text-decoration-color: currentColor;
+    }
   </style>
 </head>
 <body>
@@ -197,8 +215,12 @@
 
   <!-- Minimal Tip -->
   <div class="tip">
-    Click <strong>Teabag it</strong> on any LeetCode submission to evaluate Approach, Efficiency, and Code Style with <strong>inception/mercury-decide:free</strong>.
+    Click <strong>Teabag it</strong> on any LeetCode submission to evaluate Approach, Efficiency, and Code Style.
   </div>
+
+  <footer class="footer">
+    Made with love by <a href="https://github.com/ashishk1331" target="_blank" rel="noopener noreferrer">ashishk</a>
+  </footer>
 
   <script src="popup.js"></script>
 </body>
