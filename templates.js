@@ -25,12 +25,32 @@ window.TeabagTemplates = (() => {
   }
 
   /**
+   * Formats a timestamp for the footer's "Last updated" label
+   */
+  function formatTimestamp(ts) {
+    if (!ts) return null;
+    const date = new Date(ts);
+    if (Number.isNaN(date.getTime())) return null;
+    return {
+      text: new Intl.DateTimeFormat(undefined, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit"
+      }).format(date),
+      iso: date.toISOString()
+    };
+  }
+
+  /**
    * Builds the inner HTML of the decision card matching LeetCode's card layout
    */
-  function renderStepHtml(data, stepIndex) {
+  function renderStepHtml(data, stepIndex, updatedAt) {
     const { approach, efficiency, code_style } = data || {};
 
     const rank = (code_style?.rank || "GOOD").toUpperCase();
+    const updated = formatTimestamp(updatedAt);
 
     // 1. Approach Tab Box (Formatted like LeetCode Runtime/Memory box)
     const approachTab = `
@@ -134,14 +154,17 @@ window.TeabagTemplates = (() => {
 
       <!-- Action Footer -->
       <div class="teabag-card-footer">
-        <button id="teabag-refresh-action" class="teabag-action-btn" title="Re-run analysis">
-          ${REFRESH_SVG}
-          <span>Refresh</span>
-        </button>
-        <button id="teabag-copy-action" class="teabag-action-btn" title="Copy Markdown Summary">
-          ${COPY_SVG}
-          <span>Copy Analysis</span>
-        </button>
+        ${updated ? `<span class="teabag-updated">Last updated <time datetime="${updated.iso}">${escapeHtml(updated.text)}</time></span>` : ""}
+        <div class="teabag-footer-actions">
+          <button id="teabag-refresh-action" class="teabag-action-btn" title="Re-run analysis">
+            ${REFRESH_SVG}
+            <span>Refresh</span>
+          </button>
+          <button id="teabag-copy-action" class="teabag-action-btn" title="Copy Markdown Summary">
+            ${COPY_SVG}
+            <span>Copy Analysis</span>
+          </button>
+        </div>
       </div>
     `;
   }

@@ -382,8 +382,23 @@
 .teabag-card-footer {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
   padding-top: 4px;
+}
+
+.teabag-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.teabag-updated {
+  font-size: 12px;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 

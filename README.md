@@ -18,6 +18,8 @@ A lightweight Chromium browser extension (Chrome, Edge, Brave, etc.) that adds a
   Exports the structured evaluation directly to Markdown.
 - **♻️ Refresh**:
   A refresh button on the result card re-runs the analysis on demand and overwrites the cached result.
+- **🕒 Last Updated**:
+  The card footer shows when the displayed analysis was generated, and keeps the original timestamp when a cached result is restored.
 - **💾 Per-Submission Cache**:
   Results are cached in local storage per submission, so revisiting a submission shows the previous analysis instantly (with the button showing **"Teabagged"** and a check icon) without another API call.
 - **🌓 LeetCode Native Theme**:

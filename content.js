@@ -45,19 +45,19 @@
     try {
       const stored = await chrome.storage.local.get(CACHE_PREFIX + key);
       const entry = stored?.[CACHE_PREFIX + key];
-      return entry?.data || null;
+      return entry?.data ? entry : null;
     } catch (e) {
       console.warn("[Teabag] Failed to read cached result:", e);
       return null;
     }
   }
 
-  async function writeCachedResult(data) {
+  async function writeCachedResult(data, updatedAt = Date.now()) {
     const key = getSubmissionKey();
     if (!key) return;
     try {
       await chrome.storage.local.set({
-        [CACHE_PREFIX + key]: { data, cachedAt: Date.now() }
+        [CACHE_PREFIX + key]: { data, cachedAt: updatedAt }
       });
     } catch (e) {
       console.warn("[Teabag] Failed to cache result:", e);
@@ -250,7 +250,7 @@
     const cached = await readCachedResult();
     if (!cached || currentDecisionData || isAnalyzing) return;
     setButtonDone(btn);
-    renderCard(container, { status: "success", data: cached });
+    renderCard(container, { status: "success", data: cached.data, updatedAt: cached.cachedAt });
   }
 
   function parseAIResponse(rawText) {
@@ -289,14 +289,14 @@
   /**
    * Renders the interactive step content and attaches listeners
    */
-  function renderStep(container, card, data, stepIndex) {
-    card.innerHTML = renderStepHtml(data, stepIndex);
+  function renderStep(container, card, data, stepIndex, updatedAt) {
+    card.innerHTML = renderStepHtml(data, stepIndex, updatedAt);
 
     // Metric tab clicks (matching LeetCode's Runtime/Memory tab switching)
     card.querySelectorAll(".teabag-metric-tab").forEach(tab => {
       tab.addEventListener("click", () => {
         activeStep = parseInt(tab.getAttribute("data-step"), 10);
-        renderStep(container, card, data, activeStep);
+        renderStep(container, card, data, activeStep, updatedAt);
       });
     });
 
@@ -304,7 +304,7 @@
     card.querySelectorAll(".teabag-capsule").forEach(cap => {
       cap.addEventListener("click", () => {
         activeStep = parseInt(cap.getAttribute("data-step"), 10);
-        renderStep(container, card, data, activeStep);
+        renderStep(container, card, data, activeStep, updatedAt);
       });
     });
 
@@ -313,12 +313,12 @@
     primaryBtn?.addEventListener("click", () => {
       if (stepIndex < 2) {
         activeStep = stepIndex + 1;
-        renderStep(container, card, data, activeStep);
+        renderStep(container, card, data, activeStep, updatedAt);
       } else {
         primaryBtn.textContent = "✓ Complete";
         setTimeout(() => {
           activeStep = 0;
-          renderStep(container, card, data, 0);
+          renderStep(container, card, data, 0, updatedAt);
         }, 1200);
       }
     });
@@ -369,7 +369,7 @@
     if (state.status === "success" && state.data) {
       currentDecisionData = state.data;
       activeStep = 0;
-      renderStep(container, card, currentDecisionData, activeStep);
+      renderStep(container, card, currentDecisionData, activeStep, state.updatedAt);
     }
   }
 
@@ -425,9 +425,10 @@
 
           try {
             const parsedData = msg.decisionData || parseAIResponse(msg.fullText || accumulated);
+            const updatedAt = Date.now();
             setButtonDone(btn);
-            renderCard(container, { status: "success", data: parsedData });
-            writeCachedResult(parsedData);
+            renderCard(container, { status: "success", data: parsedData, updatedAt });
+            writeCachedResult(parsedData, updatedAt);
           } catch (jsonErr) {
             console.error("[Teabag] JSON parse error:", jsonErr, msg.fullText);
             setButtonIdle(btn);
