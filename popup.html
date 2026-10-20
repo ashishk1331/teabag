@@ -48,32 +48,26 @@
     .header {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .logo {
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
       border-radius: var(--tb-radius);
+      flex: none;
     }
 
     .header-text {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      flex: 1;
+      min-width: 0;
     }
 
     .header-text h1 {
-      font-size: 16px;
+      font-size: 24px;
       font-weight: 700;
-      letter-spacing: -0.01em;
-    }
-
-    .badge {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--tb-accent);
-      letter-spacing: 0.01em;
+      letter-spacing: 0.02em;
+      line-height: 1.1;
     }
 
     .card {
@@ -186,7 +180,6 @@
     <img src="icons/icon48.png" class="logo" alt="Teabag">
     <div class="header-text">
       <h1>Teabag</h1>
-      <span class="badge">System 1</span>
     </div>
   </div>
 
