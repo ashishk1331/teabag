@@ -26,6 +26,15 @@
     return match ? match[1] : null;
   }
 
+  function getProblemMeta() {
+    const slug = getProblemSlug();
+    const title = document.title.replace(/\s*-\s*LeetCode\s*$/, "").trim();
+    return {
+      title: title || slug || "",
+      url: slug ? `https://leetcode.com/problems/${slug}/` : window.location.href
+    };
+  }
+
   function getSubmissionId() {
     const match = window.location.pathname.match(/\/submissions\/(\d+)/);
     return match ? match[1] : null;
@@ -332,7 +341,7 @@
     // Copy analysis to clipboard
     const copyBtn = card.querySelector("#teabag-copy-action");
     copyBtn?.addEventListener("click", () => {
-      const markdown = buildMarkdownSummary(data);
+      const markdown = buildMarkdownSummary(data, getProblemMeta());
       navigator.clipboard.writeText(markdown).then(() => {
         const label = copyBtn.querySelector("span");
         if (label) label.textContent = "Copied!";

@@ -43,6 +43,25 @@ window.TeabagTemplates = (() => {
   }
 
   /**
+   * Builds a single metric tab for the card's top row
+   */
+  function renderMetricTab({ step, icon, label, value, active }) {
+    return `
+      <div class="teabag-metric-tab group flex flex-1 cursor-pointer flex-col rounded-sd px-4 py-3 text-xs transition hover:opacity-100 ${active ? "active bg-sd-accent opacity-100" : "opacity-45"}" data-step="${step}">
+        <div class="flex justify-between gap-2">
+          <div class="flex items-center gap-1.5 text-sd-foreground">
+            ${icon}
+            <div class="flex-1 text-sm font-medium">${label}</div>
+          </div>
+        </div>
+        <div class="mt-2 flex items-center gap-1.5 flex-wrap">
+          <span class="text-base font-semibold text-sd-foreground">${escapeHtml(value)}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  /**
    * Builds the inner HTML of the decision card matching LeetCode's card layout
    */
   function renderStepHtml(data, stepIndex, updatedAt) {
@@ -51,50 +70,11 @@ window.TeabagTemplates = (() => {
     const rank = (code_style?.rank || "GOOD").toUpperCase();
     const updated = formatTimestamp(updatedAt);
 
-    // 1. Approach Tab Box (Formatted like LeetCode Runtime/Memory box)
-    const approachTab = `
-      <div class="teabag-metric-tab group flex flex-1 cursor-pointer flex-col rounded-sd px-4 py-3 text-xs transition hover:opacity-100 ${stepIndex === 0 ? "active bg-sd-accent opacity-100" : "opacity-45"}" data-step="0">
-        <div class="flex justify-between gap-2">
-          <div class="flex items-center gap-1.5 text-sd-foreground">
-            ${APPROACH_SVG}
-            <div class="flex-1 text-sm font-medium">Approach</div>
-          </div>
-        </div>
-        <div class="mt-2 flex items-center gap-1.5 flex-wrap">
-          <span class="text-base font-semibold text-sd-foreground">${escapeHtml(approach?.current || "N/A")}</span>
-        </div>
-      </div>
-    `;
-
-    // 2. Efficiency Tab Box
-    const efficiencyTab = `
-      <div class="teabag-metric-tab group flex flex-1 cursor-pointer flex-col rounded-sd px-4 py-3 text-xs transition hover:opacity-100 ${stepIndex === 1 ? "active bg-sd-accent opacity-100" : "opacity-45"}" data-step="1">
-        <div class="flex justify-between gap-2">
-          <div class="flex items-center gap-1.5 text-sd-foreground">
-            ${CLOCK_SVG}
-            <div class="flex-1 text-sm font-medium">Efficiency</div>
-          </div>
-        </div>
-        <div class="mt-2 flex items-center gap-1.5 flex-wrap">
-          <span class="text-base font-semibold text-sd-foreground">${escapeHtml(efficiency?.current_time || "N/A")}</span>
-        </div>
-      </div>
-    `;
-
-    // 3. Code Style Tab Box
-    const styleTab = `
-      <div class="teabag-metric-tab group flex flex-1 cursor-pointer flex-col rounded-sd px-4 py-3 text-xs transition hover:opacity-100 ${stepIndex === 2 ? "active bg-sd-accent opacity-100" : "opacity-45"}" data-step="2">
-        <div class="flex justify-between gap-2">
-          <div class="flex items-center gap-1.5 text-sd-foreground">
-            ${CODE_SVG}
-            <div class="flex-1 text-sm font-medium">Code Style</div>
-          </div>
-        </div>
-        <div class="mt-2 flex items-center gap-1.5 flex-wrap">
-          <span class="text-base font-semibold text-sd-foreground">${escapeHtml(rank)}</span>
-        </div>
-      </div>
-    `;
+    const tabs = [
+      { step: 0, icon: APPROACH_SVG, label: "Approach", value: approach?.current || "N/A" },
+      { step: 1, icon: CLOCK_SVG, label: "Efficiency", value: efficiency?.current_time || "N/A" },
+      { step: 2, icon: CODE_SVG, label: "Code Style", value: rank }
+    ];
 
     // Detail Box for Selected Metric
     let detailContent = "";
@@ -141,9 +121,7 @@ window.TeabagTemplates = (() => {
     return `
       <!-- Metric Cards Row (All 3 metrics together side-by-side like LeetCode Runtime/Memory) -->
       <div class="teabag-metric-grid">
-        ${approachTab}
-        ${efficiencyTab}
-        ${styleTab}
+        ${tabs.map(tab => renderMetricTab({ ...tab, active: stepIndex === tab.step })).join("")}
       </div>
 
       <!-- Detail Box for Selected Metric -->
@@ -202,10 +180,15 @@ window.TeabagTemplates = (() => {
   /**
    * Builds markdown report for clipboard copying
    */
-  function buildMarkdownSummary(data) {
+  function buildMarkdownSummary(data, problem) {
     const { approach, efficiency, code_style, model } = data || {};
-    return `### 🫖 LeetCode AI Submission Analysis
-**Model:** ${model || "inception/mercury-decide:free"}
+    const meta = [];
+    if (problem?.title) meta.push(`**Problem:** ${problem.title}`);
+    if (problem?.url) meta.push(`**URL:** ${problem.url}`);
+    meta.push(`**Model:** ${model || "inception/mercury-decide:free"}`);
+
+    return `### Teabag Analysis
+${meta.join("\n")}
 
 #### 1. Approach
 - **Current Approach:** ${approach?.current || "N/A"}
@@ -222,6 +205,8 @@ window.TeabagTemplates = (() => {
 - **Summary:** ${code_style?.summary || ""}
 ${code_style?.strengths ? code_style.strengths.map(s => `- Strengths: ${s}`).join("\n") : ""}
 ${code_style?.improvements ? code_style.improvements.map(i => `- Improvement: ${i}`).join("\n") : ""}
+
+_Analysis done using Teabag by ashishk1331_
 `;
   }
 
