@@ -1,3 +1,5 @@
+![Banner](banner.png)
+
 # 🫖 Teabag — LeetCode AI Submission Analyzer
 
 A lightweight Chromium browser extension (Chrome, Edge, Brave, etc.) that adds a **"Teabag it"** button to LeetCode submission pages. Powered by Inception's structured decision model **`inception/mercury-decide:free`** via the OpenRouter Decisions API.
