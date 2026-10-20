@@ -75,12 +75,6 @@ window.TeabagIcons = (() => {
       <path d="M8 16H3v5"/>
     </svg>`;
 
-  // Close Icon
-  const CLOSE_SVG = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="teabag-icon">
-      <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
-    </svg>`;
-
   return {
     SIGNAL_ICON_SVG,
     WAVES_SVG,
@@ -91,8 +85,7 @@ window.TeabagIcons = (() => {
     CLOCK_SVG,
     CODE_SVG,
     COPY_SVG,
-    REFRESH_SVG,
-    CLOSE_SVG
+    REFRESH_SVG
   };
 })();
 

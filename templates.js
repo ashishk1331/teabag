@@ -10,7 +10,6 @@ window.TeabagTemplates = (() => {
     CODE_SVG,
     COPY_SVG,
     REFRESH_SVG,
-    CLOSE_SVG,
     SPINNER_SVG
   } = window.TeabagIcons || {};
 
